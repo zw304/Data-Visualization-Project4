@@ -1,0 +1,320 @@
+---
+title: "Untitled"
+author: "Zehui Wu"
+date: "3/19/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(plotly)
+library(plyr)
+library(readr)
+library(kableExtra) 
+library(dplyr) 
+library(purrr) 
+library(data.table)
+```
+
+
+```{r}
+
+## link for reference: https://datacornering.com/how-to-combine-files-with-r-and-add-filename-column/ 
+
+# Read paths to files 01 ----------------------- 
+all_paths <-
+ list.files(path = "06/01", 
+           pattern = "*.csv",
+           full.names = TRUE) 
+
+# Read file content & skip the first column & rename the column 
+all_content <-
+  all_paths %>%
+  lapply(read.table,
+         header = TRUE,
+         skip=1,
+         col.names = c("Lamp"), # Supply your own column names,
+         stringsAsFactors = FALSE,
+         sep = "\t",
+         encoding = "UTF-8")
+
+# Read file names with file paths:
+all_filenames <- all_paths %>%
+  basename() %>%
+  as.list() 
+
+# Combine file content list with filename list:
+all_lists <- mapply(c, all_content, all_filenames, SIMPLIFY = FALSE)
+
+#Unlist result and do some finalization:
+
+all_result <- rbindlist(all_lists, fill = T)
+# change column name 
+names(all_result)[2] <- "Date" 
+sum(is.na(all_result$X0)) ## 0 
+
+## find mean based on each date: 
+lamp_01<-aggregate(Lamp~Date,all_result,mean) 
+
+format(lamp_01, scientific = F) ## disabled scientific notation
+## gsub(".csv", "", all_result) 
+```
+
+```{r}
+# Read paths to files 02 ----------------------- 
+all_paths <-
+ list.files(path = "06/02", 
+           pattern = "*.csv",
+           full.names = TRUE) 
+
+# Read file content & skip the first column & rename the column 
+all_content <- 
+  all_paths %>%
+  lapply(read.table,
+         header = TRUE,
+         skip=1,
+         col.names = c("Laptop"), # Supply your own column names,
+         stringsAsFactors = FALSE,
+         sep = "\t",
+         encoding = "UTF-8") 
+
+# Read file names with file paths:
+all_filenames <- all_paths %>%
+  basename() %>%
+  as.list() 
+
+# Combine file content list with filename list:
+all_lists <- mapply(c, all_content, all_filenames, SIMPLIFY = FALSE)
+
+#Unlist result and do some finalization:
+
+all_result <- rbindlist(all_lists, fill = T) 
+# change column name 
+names(all_result)[2] <- "Date" 
+sum(is.na(all_result$X0)) ## 0 
+
+## find mean based on each date: 
+laptop_02<-aggregate(Laptop~Date,all_result,mean) 
+
+format(laptop_02, scientific = F) ## disabled scientific notation
+
+#total <- merge(lamp_01,laptop_02,by="Date")
+
+```
+
+```{r}
+# Read paths to files 03 ----------------------- 
+all_paths <-
+ list.files(path = "06/03", 
+           pattern = "*.csv",
+           full.names = TRUE) 
+
+# Read file content & skip the first column & rename the column 
+all_content <- 
+  all_paths %>%
+  lapply(read.table,
+         header = TRUE,
+         skip=1,
+         col.names = c("Router"), # Supply your own column names,
+         stringsAsFactors = FALSE,
+         sep = "\t",
+         encoding = "UTF-8") 
+
+# Read file names with file paths:
+all_filenames <- all_paths %>%
+  basename() %>%
+  as.list() 
+
+# Combine file content list with filename list:
+all_lists <- mapply(c, all_content, all_filenames, SIMPLIFY = FALSE)
+
+#Unlist result and do some finalization:
+
+all_result <- rbindlist(all_lists, fill = T) 
+# change column name 
+names(all_result)[2] <- "Date" 
+sum(is.na(all_result$X0)) ## 0 
+
+## find mean based on each date: 
+router_03<-aggregate(Router~Date,all_result,mean) 
+
+format(router_03, scientific = F) ## disabled scientific notation
+```
+```{r}
+# Read paths to files 04 ----------------------- 
+all_paths <-
+ list.files(path = "06/04", 
+           pattern = "*.csv",
+           full.names = TRUE) 
+
+# Read file content & skip the first column & rename the column 
+all_content <- 
+  all_paths %>%
+  lapply(read.table,
+         header = TRUE,
+         skip=1,
+         col.names = c("Coffee"), # Supply your own column names,
+         stringsAsFactors = FALSE,
+         sep = "\t",
+         encoding = "UTF-8") 
+
+# Read file names with file paths:
+all_filenames <- all_paths %>%
+  basename() %>% 
+  as.list() 
+
+# Combine file content list with filename list:
+all_lists <- mapply(c, all_content, all_filenames, SIMPLIFY = FALSE)
+
+#Unlist result and do some finalization:
+
+all_result <- rbindlist(all_lists, fill = T) 
+# change column name 
+names(all_result)[2] <- "Date" 
+sum(is.na(all_result$X0)) ## 0 
+
+## find mean based on each date: 
+coffee_04<-aggregate(Coffee~Date,all_result,mean) 
+
+format(coffee_04, scientific = F) ## disabled scientific notation
+
+```
+
+```{r}
+# Read paths to files 05 ----------------------- 
+all_paths <-
+ list.files(path = "06/05", 
+           pattern = "*.csv",
+           full.names = TRUE) 
+
+# Read file content & skip the first column & rename the column 
+all_content <- 
+  all_paths %>%
+  lapply(read.table,
+         header = TRUE,
+         skip=1,
+         col.names = c("Entertainment"), # Supply your own column names,
+         stringsAsFactors = FALSE,
+         sep = "\t",
+         encoding = "UTF-8") 
+
+# Read file names with file paths:
+all_filenames <- all_paths %>% 
+  basename() %>% 
+  as.list() 
+
+# Combine file content list with filename list:
+all_lists <- mapply(c, all_content, all_filenames, SIMPLIFY = FALSE)
+
+#Unlist result and do some finalization:
+
+all_result <- rbindlist(all_lists, fill = T) 
+# change column name 
+names(all_result)[2] <- "Date" 
+sum(is.na(all_result$X0)) ## 0 
+
+## find mean based on each date: 
+Entertainment_05<-aggregate(Entertainment~Date,all_result,mean) 
+
+format(Entertainment_05, scientific = F) ## disabled scientific notation
+```
+
+```{r}
+# Read paths to files 06 ----------------------- 
+all_paths <-
+ list.files(path = "06/06", 
+           pattern = "*.csv",
+           full.names = TRUE) 
+
+# Read file content & skip the first column & rename the column 
+all_content <- 
+  all_paths %>%
+  lapply(read.table,
+         header = TRUE,
+         skip=1,
+         col.names = c("Fridge"), # Supply your own column names,
+         stringsAsFactors = FALSE,
+         sep = "\t",
+         encoding = "UTF-8") 
+
+# Read file names with file paths:
+all_filenames <- all_paths %>% 
+  basename() %>% 
+  as.list() 
+
+# Combine file content list with filename list:
+all_lists <- mapply(c, all_content, all_filenames, SIMPLIFY = FALSE)
+
+#Unlist result and do some finalization:
+
+all_result <- rbindlist(all_lists, fill = T) 
+# change column name 
+names(all_result)[2] <- "Date" 
+sum(is.na(all_result$X0)) ## 0 
+
+## find mean based on each date: 
+Fridge_06<-aggregate(Fridge~Date,all_result,mean) 
+
+format(Fridge_06, scientific = F) ## disabled scientific notation
+
+
+```
+
+```{r}
+# Read paths to files 07 ----------------------- 
+all_paths <-
+ list.files(path = "06/07", 
+           pattern = "*.csv",
+           full.names = TRUE) 
+
+# Read file content & skip the first column & rename the column 
+all_content <- 
+  all_paths %>%
+  lapply(read.table,
+         header = TRUE,
+         skip=1,
+         col.names = c("Kettle"), # Supply your own column names,
+         stringsAsFactors = FALSE,
+         sep = "\t",
+         encoding = "UTF-8") 
+
+# Read file names with file paths:
+all_filenames <- all_paths %>% 
+  basename() %>% 
+  as.list() 
+
+# Combine file content list with filename list:
+all_lists <- mapply(c, all_content, all_filenames, SIMPLIFY = FALSE)
+
+#Unlist result and do some finalization:
+
+all_result <- rbindlist(all_lists, fill = T) 
+# change column name 
+names(all_result)[2] <- "Date" 
+sum(is.na(all_result$X0)) ## 0 
+
+## find mean based on each date: 
+Kettle_07<-aggregate(Kettle~Date,all_result,mean) 
+
+format(Kettle_07, scientific = F) ## disabled scientific notation
+
+```
+
+```{r}
+## merge and aggregate: 
+## using left join:
+total_usage <- lamp_01 %>%
+    left_join(laptop_02, by='Date') %>%
+    left_join(router_03, by='Date')%>%
+    left_join(coffee_04, by='Date') %>%
+    left_join(Entertainment_05, by='Date')%>%
+    left_join(Fridge_06, by='Date') %>%
+    left_join(Kettle_07, by='Date') 
+
+format(total_usage, scientific = F) 
+total_usage$Date<-gsub(".csv", "", total_usage$Date) ## remove the useless characters: csv
+
+write.csv(total_usage,file="data_munging.csv") 
+```
+
+
+
